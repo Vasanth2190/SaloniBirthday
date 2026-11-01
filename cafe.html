@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7bfd7">
+  <title>Hello Kitty Café — Saloni's Birthday</title>
+  <link rel="stylesheet" href="cafe.css">
+</head>
+<body class="cafe-body">
+  <main class="story" id="story" aria-label="Hello Kitty birthday story">
+    <div class="ambient" id="ambient" aria-hidden="true"></div>
+    <div class="scene-stage" id="sceneStage">
+      <img id="sceneImage" class="scene-media scene-image is-visible" src="assets/cafe/scene-01-portal.webp" alt="Saloni arriving through a glowing portal near Hello Kitty Café">
+      <video id="greetingVideo" class="scene-media scene-video" playsinline preload="metadata" aria-label="Hello Kitty's café greeting">
+        <source src="assets/cafe/greeting.mp4" type="video/mp4">
+      </video>
+      <div class="scene-vignette" aria-hidden="true"></div>
+    </div>
+
+    <header class="story-header" id="storyHeader">
+      <div class="story-brand"><span class="brand-bow" aria-hidden="true">🎀</span><span>Hello Kitty Café</span></div>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true" title="Toggle soundtrack"><span id="soundIcon">♫</span><span id="soundLabel">Sound on</span></button>
+    </header>
+
+    <div class="scene-caption" id="sceneCaption" aria-live="polite" hidden></div>
+    <section class="dialogue-panel" id="dialoguePanel" aria-live="polite" hidden>
+      <div class="speaker-line"><span class="speaker-bow" id="speakerBow" aria-hidden="true">🎀</span><span id="speakerName">Hello Kitty</span></div>
+      <p class="dialogue-text" id="dialogueText"></p>
+      <div class="dialogue-actions"><span class="dialogue-progress" id="dialogueProgress"></span><button class="cute-button primary" id="dialogueNext" type="button">Next ♡</button></div>
+    </section>
+
+    <div class="action-dock" id="actionDock" hidden>
+      <button class="cute-button primary" id="actionButton" type="button">Continue ♡</button>
+      <p class="action-hint" id="actionHint" hidden></p>
+    </div>
+
+    <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+    <section class="letter-backdrop" id="letterBackdrop" hidden aria-label="Birthday letter">
+      <article class="letter-sheet" id="letterSheet">
+        <div class="letter-topline"><span>♡ A little something for you ♡</span><span class="letter-flower">✿</span></div>
+        <div class="letter-inner-border">
+          <div class="letter-stamp" aria-hidden="true">♡</div>
+          <p class="letter-date" id="letterDate">For a very special birthday</p>
+          <h2 id="letterTitle">A little birthday note</h2>
+          <div class="letter-copy" id="letterCopy"></div>
+          <p class="letter-signoff" id="letterSignoff">With love, always ♡</p>
+        </div>
+        <div class="letter-bottomline"><span>Made especially for Saloni</span><span>✦　♡　✦</span></div>
+        <button class="cute-button primary letter-continue" id="letterContinue" type="button">Continue ♡</button>
+      </article>
+    </section>
+
+    <section class="album-cover-layer" id="albumCoverLayer" hidden>
+      <div class="album-cover-card">
+        <span class="album-cover-ribbon">A LITTLE GIFT FOR YOU</span>
+        <span class="album-bow" aria-hidden="true">🎀</span>
+        <h2>A scrapbook of<br><em>your moments</em></h2>
+        <p>Every memory deserves its own little card.</p>
+        <button class="cute-button primary" id="openAlbum" type="button">Open Album ♡</button>
+      </div>
+    </section>
+
+    <section class="album-modal" id="albumModal" hidden aria-label="Interactive memory album">
+      <div class="album-shell">
+        <div class="album-heading">
+          <div><p class="album-eyebrow">HELLO KITTY MEMORY BOOK</p><h2>Little moments, big memories <span>♡</span></h2></div>
+          <button class="album-close" id="albumClose" type="button" aria-label="Close album">×</button>
+        </div>
+        <div class="album-spread" id="albumSpread" aria-label="Open Hello Kitty scrapbook">
+          <div class="album-page left-page" id="leftAlbumPage" aria-label="Left album page"></div>
+          <div class="album-page right-page" id="rightAlbumPage" aria-label="Right album page"></div>
+          <div class="page-flip-sheet" id="pageFlipSheet" aria-hidden="true"></div>
+        </div>
+        <div class="album-controls">
+          <button class="cute-button secondary" id="albumPrevious" type="button">← Previous</button>
+          <span class="album-page-count" id="albumPageCount">MEMORIES 01–02 / 14</span>
+          <button class="cute-button primary" id="albumNext" type="button">Next pages →</button>
+          <button class="cute-button primary" id="albumContinue" type="button" hidden>Continue ♡</button>
+        </div>
+        <p class="album-missing-note" id="albumMissingNote" hidden>Some memory files are missing. Add A1–A20 to the top-level <code>assets/</code> folder.</p>
+      </div>
+      <div class="photo-lightbox" id="photoLightbox" hidden role="dialog" aria-modal="true" aria-label="Expanded memory">
+        <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close expanded memory">×</button>
+        <div class="lightbox-frame" id="lightboxFrame"></div>
+        <span class="lightbox-count" id="lightboxCount"></span>
+      </div>
+    </section>
+
+    <div class="final-overlay" id="finalOverlay" hidden aria-hidden="true"><div class="final-heart">♡</div></div>
+
+    <audio id="backgroundMusic" preload="none"></audio>
+    <audio id="soundEffect" preload="none"></audio>
+  </main>
+  <script src="cafe.js"></script>
+</body>
+</html>

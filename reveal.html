@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05050a"><title>Who's That Pokémon?</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="screen reveal-scene" aria-label="Pokémon mystery reveal">
+<p class="reveal-note">WHO'S THAT POKÉMON?</p>
+<button id="findOutButton" class="find-out-button" type="button" hidden>FIND OUT <span>▶</span></button>
+</main>
+<audio id="revealAudio" src="assets/reveal.mp3" preload="auto"></audio>
+<audio id="dingAudio" src="assets/ding.mp3" preload="auto"></audio>
+<audio id="loadingAudio" src="assets/loading.mp3" preload="auto" loop></audio>
+<script>
+(()=>{
+ const audio=document.getElementById('revealAudio'),ding=document.getElementById('dingAudio'),loadingAudio=document.getElementById('loadingAudio'),button=document.getElementById('findOutButton');
+ let shown=false;
+ function showButton(){if(shown)return;shown=true;button.hidden=false;ding.currentTime=0;ding.play().catch(()=>{});}
+ audio.addEventListener('ended',showButton,{once:true});
+ audio.addEventListener('error',()=>{console.warn('Missing assets/reveal.mp3; showing FIND OUT so the flow can still be tested.');showButton()},{once:true});
+ audio.play().catch(()=>{showButton()});
+ button.addEventListener('click',async()=>{
+   // Request the loading soundtrack directly from the FIND OUT user gesture.
+   try{loadingAudio.currentTime=0;await loadingAudio.play()}catch(e){}
+   window.location.href='index.html?load=1';
+ });
+})();
+</script>
+</body></html>

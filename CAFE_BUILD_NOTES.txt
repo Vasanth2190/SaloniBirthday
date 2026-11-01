@@ -1,0 +1,51 @@
+HELLO KITTY CAFÉ — FINAL-SEQUENCE ADDITION
+==========================================
+
+The existing V10 website files have been preserved. The café experience is added in
+cafe.html, cafe.css, cafe.js and assets/cafe/ so the original assets/1.webp–assets/7.webp
+(Pokémon card art) are not overwritten.
+
+MISSING AUDIO FILES (copy these directly into the top-level assets/ directory):
+  p.mp3
+  cafe1.mp3
+  cafe2.mp3
+  cafe3.mp3
+  cafe4.mp3
+  cafe5.mp3
+  cafe6.mp3
+  cafe7.mp3
+
+The story still runs if these files aren't present; soundtrack and SFX will simply be silent.
+A visible Sound/Enable sound control is included to handle browser autoplay restrictions.
+
+ALBUM MEDIA (copy these directly into the top-level assets/ directory):
+  A1.mp4
+  A2.jpg
+  A3.jpg
+  A4.jpg
+  A5.jpg
+  A6.jpg
+  A7.mp4
+  A8.mp4
+  A9.jpg
+  A10.jpg
+  A11.jpg
+  A12.mp4
+  A13.mp4
+  A14.jpg
+
+These album media were not present in the uploaded V10 ZIP or in the current uploaded files,
+so the album has polished Hello Kitty-style memory placeholders that tell you which filename
+is missing. Once you copy the files in, the album will render them in a 2-card spread with
+page-turn animation. Videos are playable inline.
+
+LETTER TEXT:
+  Edit the FIRST_LETTER and HOME_LETTER objects near the top of cafe.js when the two letter
+  contents are ready. The old-letter page styling is already implemented.
+
+SEQUENCE:
+  portal scene -> café exterior -> greeting MP4 -> café dialogue -> cake -> candle/confetti ->
+  birthday note -> photo album -> envelope -> farewell -> homeward scenes -> final letter -> end.png
+
+The greeting video is copied to assets/cafe/greeting.mp4. The provided image assets are copied to
+assets/cafe/ under descriptive filenames to avoid clashing with the original Pokémon images.

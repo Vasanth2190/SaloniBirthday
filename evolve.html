@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05050a">
+<title>Saloni is Evolving!</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+html,body{margin:0;width:100%;min-height:100%;overflow:hidden;background:#03050a}
+.evolution{position:relative;width:100%;height:100svh;min-height:420px;background:#071012 url("assets/evolve.webp") center/100% 100% no-repeat;overflow:hidden;image-rendering:pixelated}
+.evo-stage{position:absolute;inset:0 0 27%;display:grid;place-items:center}
+.evo-sprite{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:clamp(230px,42vw,520px);height:clamp(230px,42vw,520px);object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 0 8px #bdeeff55)}
+.evo-sprite.blink{animation:blinkFast .62s steps(2,end) infinite}
+.evo-sprite.hidden-sprite{display:none}
+.sparkles{position:absolute;inset:12% 22% 5%;pointer-events:none;opacity:0}
+.sparkles.active{opacity:1}
+.sparkle{position:absolute;color:#fff;font-size:clamp(14px,3vw,30px);text-shadow:0 0 8px #fff,0 0 20px #a9dfff;animation:sparklePop .8s steps(4) infinite}
+.sparkle:nth-child(1){left:18%;top:28%}.sparkle:nth-child(2){left:72%;top:20%;animation-delay:.12s}.sparkle:nth-child(3){left:30%;top:65%;animation-delay:.24s}.sparkle:nth-child(4){left:78%;top:62%;animation-delay:.36s}.sparkle:nth-child(5){left:50%;top:8%;animation-delay:.18s}.sparkle:nth-child(6){left:8%;top:49%;animation-delay:.3s}.sparkle:nth-child(7){left:88%;top:42%;animation-delay:.42s}
+.evo-dialogue{position:absolute;left:1%;right:1%;bottom:1%;height:25%;min-height:112px;border:clamp(5px,.8vw,10px) solid #222b30;outline:2px solid #e9bd4b;outline-offset:-8px;background:#f9f7ee;color:#101418;box-shadow:inset 0 0 0 3px #e5ae34;padding:clamp(16px,3vw,34px);display:flex;align-items:flex-start;justify-content:center;flex-direction:column}
+.evo-text{font-family:var(--pixel,monospace);font-size:clamp(9px,1.8vw,18px);line-height:2.1;margin:0;white-space:pre-wrap}
+.evo-caret{position:absolute;right:3%;bottom:15%;font-size:12px;animation:caretBlink .7s steps(2) infinite}
+.evo-choice{position:absolute;right:4%;bottom:29%;z-index:5;display:flex;flex-direction:column;gap:10px;background:#fff7e9;border:4px solid #202a31;padding:12px;box-shadow:4px 4px 0 #dba837}
+.evo-choice button{min-width:130px;border:2px solid #e5b33c;background:#f5d9ff;color:#16101c;padding:14px;font-size:clamp(9px,1.2vw,13px);box-shadow:3px 3px 0 #33273a}
+.evo-choice button:first-child{background:#d5f6df}
+#noChoice{position:relative}
+@keyframes blinkFast{0%,100%{opacity:1;filter:brightness(1.3) drop-shadow(0 0 12px #c9f3ff)}50%{opacity:.08;filter:brightness(2) drop-shadow(0 0 24px white)}}
+@keyframes sparklePop{0%,100%{opacity:.15;transform:scale(.5) rotate(0)}50%{opacity:1;transform:scale(1.35) rotate(45deg)}}
+@keyframes caretBlink{50%{opacity:0}}
+@media(max-width:600px){.evolution{background-size:cover;background-position:center}.evo-stage{inset:0 0 28%}.evo-sprite{width:clamp(210px,68vw,390px);height:clamp(210px,68vw,390px)}.evo-dialogue{height:27%;min-height:128px}.evo-choice{bottom:30%;right:3%;padding:8px}.evo-choice button{min-width:105px;padding:12px}}
+</style>
+</head>
+<body>
+<main class="evolution" aria-label="Pokémon evolution scene">
+  <div class="evo-stage">
+    <img id="evoOpponent" class="evo-sprite" src="assets/opponent.png" alt="Saloni before evolving">
+    <img id="evoBirthday" class="evo-sprite hidden-sprite" src="assets/bdg.png" alt="Saloni, the 18-year-old Birthday Girl">
+    <div id="sparkles" class="sparkles" aria-hidden="true"><span class="sparkle">✦</span><span class="sparkle">✧</span><span class="sparkle">✦</span><span class="sparkle">✧</span><span class="sparkle">✦</span><span class="sparkle">✧</span><span class="sparkle">✦</span></div>
+  </div>
+  <div class="evo-dialogue" aria-live="polite"><p id="evoText" class="evo-text"></p><span id="caret" class="evo-caret">▼</span></div>
+  <div id="choice" class="evo-choice" hidden><button id="yesChoice" type="button">YES ▶</button><button id="noChoice" type="button">NO</button></div>
+</main>
+<audio id="ding" src="assets/ding.mp3" preload="auto"></audio>
+<audio id="evolveSound" src="assets/evolve.mp3" preload="auto"></audio>
+<audio id="evolveRevealSound" src="assets/evolve1.mp3" preload="auto"></audio>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const ding=$("ding"),evolveSound=$("evolveSound"),evolveRevealSound=$("evolveRevealSound");
+ const opponent=$("evoOpponent"),birthday=$("evoBirthday"),sparkles=$("sparkles"),text=$("evoText"),choice=$("choice"),caret=$("caret");
+ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+ async function play(a){try{a.currentTime=0;const p=a.play();if(p)await p}catch(e){}}
+ async function say(line,pace=42){ding.currentTime=0;ding.play().catch(()=>{});text.textContent="";for(let i=0;i<line.length;i++){text.textContent+=line[i];await sleep(line[i]===" "?Math.max(8,pace*.4):pace)}await sleep(450)}
+ async function waitAudio(a,fallback=15000){await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;resolve()};a.addEventListener("ended",finish,{once:true});a.addEventListener("error",finish,{once:true});setTimeout(finish,fallback);play(a)})}
+ async function run(){
+   await say("What? Saloni is Evolving?");
+   sparkles.classList.add("active");opponent.classList.add("blink");
+   await waitAudio(evolveSound,20000);
+   opponent.classList.add("hidden-sprite");opponent.classList.remove("blink");
+   birthday.classList.remove("hidden-sprite");
+   await play(evolveRevealSound);
+   await say("Saloni evolved to a 18 year old Birthday Girl !!");
+   await say("Let's celebrate her birthday with a pack of memories.");
+   await say("Shall we celebrate her birthday? Open a pack of memories?");
+   choice.hidden=false;caret.hidden=true;
+ }
+ $("yesChoice").addEventListener("click",()=>{window.location.href="pack.html"});
+ const no=$("noChoice");
+ function dodge(e){if(e)e.preventDefault();const w=no.offsetWidth||110,h=no.offsetHeight||45,p=12;no.style.position="fixed";no.style.left=(p+Math.random()*Math.max(1,innerWidth-w-p*2))+"px";no.style.top=(60+Math.random()*Math.max(1,innerHeight-h-120))+"px";no.style.zIndex=99}
+ ["pointerenter","pointerdown","click"].forEach(e=>no.addEventListener(e,dodge));
+ run();
+})();
+</script>
+</body>
+</html>

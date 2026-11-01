@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffb5e1">
+<title>Pack of Memories &amp; Wishes</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#180b2c;color:#fff}
+body{font-family:var(--pixel,"Courier New",monospace)}
+button{font:inherit;cursor:pointer}
+[hidden]{display:none!important}
+.pack-page{position:relative;width:100%;height:100svh;min-height:420px;overflow:hidden;isolation:isolate;background:#1d0c31 url('assets/open.webp') center/cover no-repeat;display:flex;align-items:center;justify-content:center}
+.pack-page:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#220d2c1c,#210b394f)}
+#confirm{position:absolute;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:22px;background:linear-gradient(135deg,#210c3aef,#6d1f70bb,#230d40ef);text-align:center}
+.confirm-panel{width:min(760px,100%);padding:clamp(24px,5vw,54px) clamp(18px,4vw,42px);border:3px solid #ffd6f0;border-radius:24px;background:linear-gradient(145deg,#ffb5dded,#f5d4ffed 55%,#ffc7e8ed);color:#43154f;box-shadow:0 0 0 7px #7b3c8b66,0 0 55px #ff8fd6aa,inset 0 0 25px #fff9;animation:panelGlow 3s ease-in-out infinite alternate}
+.kicker{font-size:clamp(7px,1.2vw,11px);letter-spacing:.15em;text-transform:uppercase;margin:0 0 22px;color:#813b83}
+.confirm-panel h1{font-size:clamp(17px,3.5vw,32px);line-height:1.9;margin:0 auto;max-width:650px;text-shadow:0 2px #fff9}
+.confirm-panel p{font-size:clamp(8px,1.2vw,11px);line-height:2;margin:18px auto 0;max-width:540px}
+.choices{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:28px;min-height:56px}
+.choice-btn,.nav-btn{border:2px solid #fff3ff;border-radius:12px;padding:14px 20px;min-width:140px;background:linear-gradient(135deg,#fff0fb,#ff9bd3);color:#47174e;box-shadow:0 5px 0 #a44e9a,0 0 20px #ffb6e3aa;font-size:clamp(8px,1.2vw,11px);transition:transform .18s,filter .18s}
+.choice-btn:hover,.nav-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+#noBtn{background:linear-gradient(135deg,#f3e9ff,#c6b6ff);box-shadow:0 5px 0 #7563a8}
+#packScene,#cardScene{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(10px,2vw,26px);gap:10px}
+.scene-title{font-size:clamp(10px,1.7vw,16px);line-height:1.8;text-align:center;margin:0;text-shadow:0 2px 9px #42104f;letter-spacing:.03em;z-index:5}
+.pack-hint,.card-hint{font-size:clamp(7px,1vw,10px);line-height:1.8;text-align:center;margin:0;text-shadow:0 2px 6px #28062e;z-index:5}
+.pack-art-wrap{position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;width:100%;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent}
+.pack-art{display:block;width:auto;height:auto;max-width:min(68vw,440px);max-height:min(70svh,720px);object-fit:contain;filter:drop-shadow(0 0 18px #ff8edb99);animation:packFloat 3.3s ease-in-out infinite;transition:transform .25s,filter .25s}
+.pack-art-wrap:hover .pack-art{transform:scale(1.025);filter:drop-shadow(0 0 28px #ff9ce8)}
+.sparkle-field{position:absolute;inset:4%;pointer-events:none;overflow:hidden;z-index:2}
+.sparkle{position:absolute;color:#fff2fb;text-shadow:0 0 8px white,0 0 22px #ff8bd9;font-size:clamp(15px,2.6vw,29px);animation:twinkle 1.7s ease-in-out infinite alternate}
+.sparkle:nth-child(1){left:13%;top:20%}.sparkle:nth-child(2){right:15%;top:15%;animation-delay:.4s}.sparkle:nth-child(3){left:18%;bottom:18%;animation-delay:.8s}.sparkle:nth-child(4){right:13%;bottom:22%;animation-delay:1s}.sparkle:nth-child(5){left:50%;top:8%;animation-delay:.6s}
+.card-area{--aura:#ffd982;position:relative;flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;perspective:1500px;-webkit-perspective:1500px}
+.card-area.effect-1{--aura:#ffd982}.card-area.effect-2{--aura:#ff9ecf}.card-area.effect-3{--aura:#fff0a7}.card-area.effect-4{--aura:#bd94ff}.card-area.effect-5{--aura:#b2ef87}.card-area.effect-6{--aura:#8fe6ff}.card-area.final-card{--aura:#ff62c4}
+.card-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(68vw,510px);height:min(80vh,760px);border-radius:50%;background:var(--aura);filter:blur(68px);opacity:.28;transition:opacity .65s,background .65s,width .65s,height .65s;z-index:0;pointer-events:none}
+.card-area.effects-on .card-glow{opacity:.68}
+.card-area.final-card.effects-on .card-glow{opacity:.9;width:min(78vw,590px);height:min(88vh,800px);animation:finalAura 1.65s ease-in-out infinite alternate}
+.aura-rings{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(78vw,540px);height:min(98%,760px);border:2px solid #ffb5e899;border-radius:46%/42%;box-shadow:0 0 25px #ff5ac477,inset 0 0 25px #ff7ccd44;pointer-events:none;z-index:1;animation:ringPulse 2.8s ease-in-out infinite}
+.aura-rings:before,.aura-rings:after{content:"";position:absolute;inset:-14px;border:2px solid #ff8bd366;border-radius:48%/44%;animation:ringPulse 2.8s ease-in-out infinite reverse}
+.aura-rings:after{inset:-29px;border-color:#ffd0ee55;animation-delay:.4s}
+.card-area.final-card.effects-on .aura-rings{display:block}
+/* Important: keep the rotating element free of filters and effects. Those can flatten 3D children in some browsers. */
+.card-flipper{position:relative;display:block;flex:none;width:min(72vw,430px);aspect-ratio:1063/1480;max-width:91vw;max-height:72svh;transform:rotateY(0deg);-webkit-transform:rotateY(0deg);transform-style:preserve-3d;-webkit-transform-style:preserve-3d;transition:transform .86s cubic-bezier(.2,.72,.22,1);cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;z-index:2;will-change:transform}
+.card-flipper.flipped{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
+.card-face{position:absolute;inset:0;display:block;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 12px 28px #17031c88}
+.card-face img{display:block;width:100%;height:100%;object-fit:contain;border-radius:10px;user-select:none;-webkit-user-drag:none}
+.card-back{transform:rotateY(0deg);-webkit-transform:rotateY(0deg)}
+.card-front{transform:rotateY(180deg);-webkit-transform:rotateY(180deg)}
+/* Stable end-state: after the real 3D turn, flatten only the already-revealed front. This prevents blank backfaces on browsers that mishandle nested 3D images. */
+.card-flipper.front-only{transition:transform .28s ease!important;transform:scale(1)!important;-webkit-transform:scale(1)!important}.card-flipper.front-only.zoomed{transform:scale(1.28)!important;-webkit-transform:scale(1.28)!important;z-index:8}.card-area.zoom-focus .card-glow{opacity:1!important;width:min(86vw,650px);height:min(92vh,850px)}.card-area.zoom-focus .effect-overlay{opacity:.3}
+.card-flipper.no-transition{transition:none!important}
+.card-flipper.front-only .card-back{display:none}
+.card-flipper.front-only .card-front{transform:none!important;-webkit-transform:none!important;backface-visibility:visible!important;-webkit-backface-visibility:visible!important}
+.card-area.effects-on.effect-1 .card-face{box-shadow:0 12px 28px #17031c88,0 0 22px #ffd76a77}
+.card-area.effects-on.effect-2 .card-face{box-shadow:0 12px 28px #17031c88,0 0 24px #ff69b477}
+.card-area.effects-on.effect-3 .card-face{box-shadow:0 12px 28px #17031c88,0 0 26px #eec14a88}
+.card-area.effects-on.effect-4 .card-face{box-shadow:0 12px 28px #17031c88,0 0 26px #9b6bff99}
+.card-area.effects-on.effect-5 .card-face{box-shadow:0 12px 28px #17031c88,0 0 24px #8dd95f88}
+.card-area.effects-on.effect-6 .card-face{box-shadow:0 12px 28px #17031c88,0 0 26px #55c9ff88}
+.card-area.effects-on.final-card .card-face{box-shadow:0 12px 28px #17031c88,0 0 22px #ff8acb,0 0 46px #ff52c6cc}
+.effect-overlay{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:4;opacity:0;transition:opacity .25s}
+.card-area.effects-on .effect-overlay{opacity:1}
+.effect-particle{position:absolute;left:var(--x);top:var(--y);font-size:clamp(25px,3.1vw,38px);line-height:1;color:var(--particle-color,#fff);text-shadow:0 0 10px currentColor,0 0 26px currentColor,0 0 42px currentColor;opacity:0;will-change:transform,opacity;animation:particleFloat var(--duration,3.4s) ease-in-out var(--delay,0s) infinite}
+.effect-particle.large{font-size:clamp(34px,4.8vw,58px)}
+.effect-particle.drifting{animation-name:petalDrift}.effect-particle.twinkling{animation-name:particleTwinkle}.effect-particle.heart-pop{animation-name:heartPop}
+.card-area.effect-1 .effect-particle{--particle-color:#ffe9a1}.card-area.effect-2 .effect-particle{--particle-color:#ffc5e7}.card-area.effect-3 .effect-particle{--particle-color:#fff0a7}.card-area.effect-4 .effect-particle{--particle-color:#e0c7ff}.card-area.effect-5 .effect-particle{--particle-color:#e4ffb7}.card-area.effect-6 .effect-particle{--particle-color:#c4f4ff}.card-area.final-card .effect-particle{--particle-color:#ffb6e4}
+.card-area.final-card .effect-particle{animation-duration:calc(var(--duration,3.4s)*.78)}
+.effect-burst{position:absolute;left:50%;top:50%;width:min(62vw,440px);aspect-ratio:1;transform:translate(-50%,-50%) scale(.55);border-radius:50%;border:2px solid var(--aura);box-shadow:0 0 22px var(--aura),inset 0 0 28px var(--aura);opacity:0;pointer-events:none;z-index:1}
+.card-area.effects-on .effect-burst{animation:burstRing 1.6s ease-out 1 both}
+.card-area.final-card.effects-on .effect-burst{width:min(74vw,540px);border-width:3px;animation:finalBurst 2.2s ease-out infinite}
+.controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;min-height:50px;padding:2px 0 4px;z-index:5}
+.nav-btn{min-width:145px;padding:14px 17px}
+#previousBtn{background:linear-gradient(135deg,#f4eeff,#d9cbff);box-shadow:0 5px 0 #8a73b9,0 0 19px #c7adff88}
+#continueBtn{background:linear-gradient(135deg,#fff0fb,#ff8acb);box-shadow:0 5px 0 #a44e9a,0 0 24px #ff8bd9}
+.card-count{font-size:clamp(7px,1vw,10px);line-height:1.8;text-align:center;text-shadow:0 2px 8px #26072c}
+@keyframes packFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-10px) rotate(1deg)}}
+@keyframes panelGlow{from{box-shadow:0 0 0 7px #7b3c8b66,0 0 35px #ff8fd677,inset 0 0 25px #fff9}to{box-shadow:0 0 0 7px #7b3c8b66,0 0 65px #ff8fd6bb,inset 0 0 35px #fff}}
+@keyframes twinkle{from{opacity:.25;transform:scale(.75) rotate(-10deg)}to{opacity:1;transform:scale(1.2) rotate(15deg)}}
+@keyframes particleFloat{0%{transform:translate3d(0,14px,0) scale(.6) rotate(-12deg);opacity:0}18%{opacity:.95}65%{opacity:.8}100%{transform:translate3d(8px,-44px,0) scale(1.12) rotate(16deg);opacity:0}}
+@keyframes petalDrift{0%{transform:translate3d(-12px,24px,0) rotate(0deg) scale(.7);opacity:0}20%{opacity:.95}100%{transform:translate3d(22px,-60px,0) rotate(210deg) scale(1.1);opacity:0}}
+@keyframes particleTwinkle{0%,100%{transform:scale(.55) rotate(-15deg);opacity:.15}50%{transform:scale(1.3) rotate(18deg);opacity:1}}
+@keyframes heartPop{0%{transform:translateY(24px) scale(.45) rotate(-18deg);opacity:0}16%{opacity:1}58%{transform:translateY(-18px) scale(1.15) rotate(8deg);opacity:.95}100%{transform:translateY(-85px) scale(.75) rotate(20deg);opacity:0}}
+@keyframes burstRing{0%{transform:translate(-50%,-50%) scale(.45);opacity:0}18%{opacity:.85}100%{transform:translate(-50%,-50%) scale(1.35);opacity:0}}
+@keyframes finalBurst{0%{transform:translate(-50%,-50%) scale(.45);opacity:0}18%{opacity:.95}100%{transform:translate(-50%,-50%) scale(1.32);opacity:0}}
+@keyframes finalAura{from{opacity:.48;scale:.94}to{opacity:.95;scale:1.08}}
+@keyframes ringPulse{0%,100%{opacity:.35;scale:.96;rotate:-3deg}50%{opacity:.9;scale:1.04;rotate:3deg}}
+@media(max-width:600px){.card-flipper.front-only.zoomed{transform:scale(1.16)!important;-webkit-transform:scale(1.16)!important}.confirm-panel{border-radius:18px}.pack-art{max-width:83vw;max-height:67svh}.card-flipper{width:min(78vw,390px);max-width:90vw;max-height:69svh}.controls{gap:8px}.nav-btn{min-width:125px;padding:12px 13px}.scene-title{max-width:95%}}
+@media(max-height:650px){.pack-page{min-height:350px}#packScene,#cardScene{gap:5px}.card-flipper{width:min(64vw,350px);max-height:64svh}.pack-art{max-height:58svh}.scene-title{font-size:10px}.pack-hint,.card-hint{font-size:7px}.controls{min-height:42px}.nav-btn{padding:10px 13px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main class="pack-page">
+  <section id="confirm" aria-labelledby="confirmTitle">
+    <div class="confirm-panel">
+      <p class="kicker">A little collection of moments</p>
+      <h1 id="confirmTitle">Are you ready to open the Pack of Memories &amp; Wishes?</h1>
+      <p>Seven little cards. A whole lot of memories, smiles, and birthday wishes.</p>
+      <div class="choices"><button id="yesBtn" class="choice-btn" type="button">YES ✨</button><button id="noBtn" class="choice-btn" type="button">NO</button></div>
+    </div>
+  </section>
+  <section id="packScene" hidden aria-live="polite">
+    <p class="scene-title" id="sceneTitle">A special pack, made just for you</p>
+    <div class="sparkle-field" aria-hidden="true"><span class="sparkle">✦</span><span class="sparkle">✧</span><span class="sparkle">✦</span><span class="sparkle">✧</span><span class="sparkle">✦</span></div>
+    <div id="packWrap" class="pack-art-wrap" role="button" tabindex="0" aria-label="Open the memory pack"><img class="pack-art" src="assets/pack.webp" alt="The sealed Pokémon memory pack"></div>
+    <p class="pack-hint" id="packHint">Tap or click the pack to open it</p>
+  </section>
+  <section id="cardScene" hidden aria-live="polite">
+    <p class="scene-title" id="cardTitle">A memory for you</p>
+    <div class="card-area effect-1" id="cardArea">
+      <div class="card-glow"></div>
+      <div class="aura-rings" aria-hidden="true"></div>
+      <div class="effect-burst" aria-hidden="true"></div>
+      <div class="effect-overlay" id="effectOverlay" aria-hidden="true"></div>
+      <div class="card-flipper" id="cardFlipper" role="button" tabindex="0" aria-label="Flip card to reveal its front">
+        <div class="card-face card-back"><img src="assets/back.webp" alt="Back of the memory card" draggable="false"></div>
+        <div class="card-face card-front"><img id="cardFront" src="assets/1.webp" alt="Memory card 1" draggable="false"></div>
+      </div>
+    </div>
+    <p class="card-hint" id="cardHint">Tap the card to reveal it</p>
+    <div class="controls"><button id="previousBtn" class="nav-btn" type="button" hidden>◀ PREVIOUS</button><span class="card-count" id="cardCount">CARD 1 OF 7</span><button id="nextBtn" class="nav-btn" type="button" hidden>NEXT CARD ▶</button><button id="continueBtn" class="nav-btn" type="button" hidden>CONTINUE</button></div>
+  </section>
+</main>
+<audio id="packMusic" src="assets/play.mp3" preload="auto" loop></audio>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const confirmPanel=$('confirm'),yes=$('yesBtn'),no=$('noBtn'),packScene=$('packScene'),cardScene=$('cardScene'),music=$('packMusic');
+ const packWrap=$('packWrap'),cardArea=$('cardArea'),flipper=$('cardFlipper'),front=$('cardFront'),next=$('nextBtn'),previous=$('previousBtn'),continueBtn=$('continueBtn'),overlay=$('effectOverlay');
+ const total=7,effectClasses=['effect-1','effect-2','effect-3','effect-4','effect-5','effect-6','final-card'];
+ const fx=[
+  {glyphs:['✦','✧','★','✦','❋','🌟','✧','★','✦','✧','·','★','✦','✨'],cls:'twinkling',color:'#ffe9a1'},
+  {glyphs:['🌸','✿','❀','🌷','♡','🌸','❀','✦','🌸','✿','♡','🌷','❀','🌸'],cls:'drifting',color:'#ffc5e7'},
+  {glyphs:['✧','⚡','✦','☼','✨','✧','✦','⚡','☀','✧','✦','✨','☼','✦'],cls:'twinkling',color:'#fff0a7'},
+  {glyphs:['☾','✦','✧','★','✧','☽','✦','⋆','★','✧','☾','✦','⋆','★'],cls:'twinkling',color:'#e0c7ff'},
+  {glyphs:['✦','❀','✧','✺','🌼','✦','✧','❋','✦','🌼','✺','✧','🌿','✦'],cls:'drifting',color:'#e4ffb7'},
+  {glyphs:['✧','☁','✦','♡','❋','✧','☁','✦','·','♡','✧','✦','❋','☁'],cls:'drifting',color:'#c4f4ff'},
+  {glyphs:['♥','♡','💕','✧','♥','🌸','♡','💗','♥','✦','♡','💖','♥','♡','🌸','💕','💗','♥','♡','✧','💞','♥'],cls:'heart-pop',color:'#ffb6e4'}
+ ];
+ // Keep particles around the edges so they frame rather than cover the card artwork.
+ const positions=[[23,6],[77,7],[24,91],[76,90],[18,26],[82,25],[17,68],[83,68],[31,2],[69,3],[30,95],[70,94],[11,43],[89,48],[38,8],[62,92],[8,57],[92,34],[44,4],[56,94],[27,48],[73,52]];
+ let current=0,revealed=false,revealing=false,zoomed=false,scene='confirm',flipTimer=null,showTimer=null,requestToken=0;
+ function clearTimers(){if(flipTimer)clearTimeout(flipTimer);if(showTimer)clearTimeout(showTimer);flipTimer=null;showTimer=null;}
+ function startMusic(){try{music.currentTime=0;const p=music.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+ function moveNo(){const pad=12,w=no.offsetWidth,h=no.offsetHeight;const maxX=Math.max(pad,innerWidth-w-pad),maxY=Math.max(pad,innerHeight-h-pad);no.style.position='fixed';no.style.left=(pad+Math.random()*(maxX-pad))+'px';no.style.top=(pad+Math.random()*(maxY-pad))+'px';}
+ no.addEventListener('pointerenter',moveNo);no.addEventListener('pointerdown',e=>{e.preventDefault();moveNo()});no.addEventListener('click',e=>{e.preventDefault();moveNo()});
+ yes.addEventListener('click',()=>{startMusic();confirmPanel.hidden=true;packScene.hidden=false;scene='pack';});
+ function activatePack(){if(scene!=='pack')return;scene='cards';packScene.hidden=true;cardScene.hidden=false;setBack(0);}
+ packWrap.addEventListener('click',activatePack);packWrap.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();activatePack()}});
+ function setEffects(index,active){
+  cardArea.classList.remove(...effectClasses,'effects-on');cardArea.classList.add(effectClasses[index]);overlay.replaceChildren();
+  if(!active)return;
+  const group=fx[index];group.glyphs.forEach((glyph,i)=>{const el=document.createElement('span');el.className='effect-particle '+group.cls+(i%4===0?' large':'');const pos=positions[i%positions.length];el.style.setProperty('--x',pos[0]+'%');el.style.setProperty('--y',pos[1]+'%');el.style.setProperty('--delay',(-((i%7)*.29))+'s');el.style.setProperty('--duration',(2.6+(i%5)*.42)+'s');el.style.setProperty('--particle-color',group.color);el.textContent=glyph;overlay.appendChild(el);});
+  cardArea.classList.add('effects-on');
+ }
+ function updateLabels(){
+  $('cardCount').textContent=`CARD ${current+1} OF ${total}`;
+  const titles=['A birthday wish, just for you','A little piece of Saloni','A golden little moment','A smile made of starlight','A moment full of tradition','Together makes the memory','A little extra love, just for you'];
+  $('cardTitle').textContent=titles[current];
+  $('cardHint').textContent=revealed?(zoomed?'Click to Zoom Out!':'Click to Enlarge!'):'Tap the card to reveal it';
+  previous.hidden=!revealed||current===0;next.hidden=!revealed||current===total-1;continueBtn.hidden=!revealed||current!==total-1;
+  flipper.setAttribute('aria-label',revealed?'Card front revealed':'Flip card to reveal its front');
+ }
+ function syncCardAspectRatio(){
+  // Match the exact natural aspect ratio of the original PNG so the card is never stretched or cropped.
+  if(front.naturalWidth>0&&front.naturalHeight>0){flipper.style.aspectRatio=`${front.naturalWidth} / ${front.naturalHeight}`;}
+ }
+ function loadFront(index){
+  front.alt=`Memory card ${index+1}`;
+  front.onload=syncCardAspectRatio;
+  front.src=`assets/${index+1}.webp`;
+  if(front.complete&&front.naturalWidth>0)syncCardAspectRatio();
+ }
+ function setBack(index){clearTimers();requestToken++;current=index;revealed=false;revealing=false;zoomed=false;flipper.classList.remove('flipped','front-only','zoomed');cardArea.classList.remove('zoom-focus');setEffects(index,false);loadFront(index);updateLabels();}
+ function waitForFront(){
+  if(front.complete&&front.naturalWidth>0)return Promise.resolve();
+  if(typeof front.decode==='function')return front.decode().catch(()=>new Promise(resolve=>{front.addEventListener('load',resolve,{once:true});front.addEventListener('error',resolve,{once:true});}));
+  return new Promise(resolve=>{if(front.complete)return resolve();front.addEventListener('load',resolve,{once:true});front.addEventListener('error',resolve,{once:true});});
+ }
+ async function reveal(){
+  if(scene!=='cards'||revealed||revealing)return;revealing=true;const thisToken=++requestToken;$('cardHint').textContent='Getting your memory ready…';
+  await waitForFront();if(thisToken!==requestToken||scene!=='cards')return;syncCardAspectRatio();
+  // Only the card container rotates. Both faces remain mounted on opposite sides of the same 3D card.
+  flipper.classList.add('flipped');$('cardHint').textContent='Revealing your memory…';
+  flipTimer=setTimeout(()=>{if(thisToken!==requestToken)return;flipper.classList.add('front-only');revealed=true;revealing=false;setEffects(current,true);updateLabels();if(current===6){$('cardTitle').textContent='The birthday finale 💗';}},880);
+ }
+ function toggleZoom(){if(!revealed||revealing)return;zoomed=!zoomed;flipper.classList.toggle('zoomed',zoomed);cardArea.classList.toggle('zoom-focus',zoomed);$('cardHint').textContent=zoomed?'Click to Zoom Out!':'Click to Enlarge!';}
+ function goTo(index){
+  if(index<0||index>=total||!revealed)return;
+  clearTimers();requestToken++;const token=requestToken;revealed=false;revealing=false;previous.hidden=true;next.hidden=true;continueBtn.hidden=true;setEffects(current,false);$('cardHint').textContent='One more little memory…';
+  // Turn the current front back over, then change the card art while the back is facing the viewer.
+  // Restore the 3D front orientation first, then reverse the same flip back to the card back.
+  flipper.classList.add('no-transition');flipper.classList.remove('front-only');void flipper.offsetWidth;flipper.classList.remove('no-transition');void flipper.offsetWidth;flipper.classList.remove('flipped');
+  showTimer=setTimeout(()=>{if(token!==requestToken)return;setBack(index);},880);
+ }
+ flipper.addEventListener('click',()=>{if(!revealed)reveal();else toggleZoom()});flipper.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(!revealed)reveal();else toggleZoom()}});
+ next.addEventListener('click',()=>goTo(current+1));previous.addEventListener('click',()=>goTo(current-1));
+ continueBtn.addEventListener('click',()=>{location.href='kitty.html'});
+ // Warm the next likely image after the first render, but do not block the first screen on seven large PNGs.
+ const firstImage=new Image();firstImage.src='assets/1.webp';
+})();
+</script>
+</body>
+</html>

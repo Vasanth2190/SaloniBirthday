@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#05050a"><title>A Little Birthday Adventure</title><link rel="stylesheet" href="styles.css">
+</head><body><main id="app">
+<section id="tapGate" class="screen tap-gate" aria-label="Start the birthday adventure">
+<div class="gate-stars" aria-hidden="true">✦　 ✧　 ✦　 ✧　 ✦</div><div class="gate-content"><div class="gate-sparkle">✦</div>
+<p class="eyebrow">A LITTLE SURPRISE AWAITS</p><h1>Ready for<br><span>something special?</span></h1>
+<div class="preload-options" role="group" aria-label="Choose how the adventure loads">
+<button id="quickModeButton" class="preload-option is-selected" type="button" aria-pressed="true">
+<span class="preload-option-title">QUICK START</span><span class="preload-option-copy">Open sooner. The rest quietly loads in the background.</span>
+</button>
+<button id="fullModeButton" class="preload-option" type="button" aria-pressed="false">
+<span class="preload-option-title">FULL EXPERIENCE</span><span class="preload-option-copy">Prepare every scene, photo, video and soundtrack first · about 90 MB.</span>
+</button>
+</div>
+<button id="tapToInteract" class="gate-button" type="button"><span class="play-icon">▶</span> START ADVENTURE</button>
+<div id="gatePreloadStatus" class="gate-preload-status" hidden>
+<p id="gatePreloadMessage">Preparing your surprise…</p>
+<div class="gate-preload-track" role="progressbar" aria-label="Asset loading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="gatePreloadFill"></span></div>
+<p id="gatePreloadPercent">0%</p>
+</div>
+<p id="gateHint" class="gate-hint">Quick Start selected · Turn your sound on for the full experience ♡</p></div><p class="gate-footer">MADE WITH A LOT OF LOVE</p></section>
+<section id="loadingScene" class="screen loading-scene" hidden><div class="loading-content">
+<div class="loading-orbit" aria-hidden="true"><div class="orbit orbit-a"></div><div class="orbit orbit-b"></div><div id="loadingBall" class="pokeball spinning"><div class="ball-top"></div><div class="ball-bottom"></div><div class="ball-band"></div><div class="ball-center"><span></span></div><div class="ball-glint"></div></div></div>
+<h1>Preparing your<br><span>little adventure</span></h1><p id="loadingMessage" class="subtext">Waking up the stars…</p>
+<div id="loadingBar" class="loading-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="loadingFill"></span></div><p id="loadingPercent" class="loading-percent">0%</p>
+<div id="readyPanel" class="ready-panel" hidden><p class="ready-eyebrow">THE ADVENTURE IS READY</p><h2>Are you ready?</h2><p class="subtext">A tiny adventure is waiting just for you.</p>
+<div class="choice-row"><button id="yesButton" class="button button-primary" type="button">YES! <span>↗</span></button><button id="noButton" class="button button-quiet" type="button">NO</button></div><p class="tiny-note">Psst… one of these answers is a little difficult to choose.</p></div>
+</div><button id="soundButton" class="sound-pill" type="button" hidden>♫ <span id="soundLabel">Music on</span></button></section>
+<section id="battleScene" class="screen battle-scene" hidden aria-label="Pokémon-style battle"><div class="battle-stage" id="battleStage">
+<div class="battle-background" aria-hidden="true"></div>
+<div id="opponentStatus" class="status-overlay opponent-status"><div class="status-top"><span>SALONI ♀</span><span>Lv 100</span></div><div class="hp-row"><b>HP</b><div class="hp-track"><span id="opponentHpFill" class="hp-fill opponent-hp"></span></div></div><div id="opponentHpText" class="hp-number">100 / 100</div></div>
+<div id="opponentPlatformAnchor" class="opponent-anchor"><img id="opponentImage" class="character opponent-character" src="assets/opponent.png" alt="Saloni's battle sprite"><div id="opponentFallback" class="character-fallback opponent-fallback" aria-hidden="true">♡</div></div>
+<div id="lovePlatformAnchor" class="love-anchor"><img id="loveImage" class="character love-character" src="assets/love.png" alt="Lovchu's battle sprite"><div id="loveFallback" class="character-fallback love-fallback" aria-hidden="true">♥</div></div>
+<div class="status-overlay player-status"><div class="status-top"><span>LOVCHU ♂</span><span>Lv 100</span></div><div class="hp-row"><b>HP</b><div class="hp-track"><span id="loveHpFill" class="hp-fill love-hp"></span></div></div><div id="loveHpText" class="hp-number">100 / 100</div></div>
+<div id="attackLayer" class="attack-layer" aria-hidden="true"></div><div id="captureBall" class="capture-ball" aria-hidden="true"><div class="mini-ball"><i></i><b></b></div></div><div id="captureStars" class="capture-stars" aria-hidden="true">✦　✧　✦</div>
+<div class="battle-ui"><div class="dialogue-box" aria-live="polite" aria-atomic="true"><p id="battleText" class="battle-text"></p><span id="textCaret" class="text-caret" aria-hidden="true">▼</span></div>
+<div id="mainMenu" class="action-menu" hidden><button id="fightButton" class="menu-button fight-button" type="button">FIGHT <span>⚔</span></button><button id="bagButton" class="menu-button bag-button" type="button">BAG <span>▣</span></button><button id="catchButton" class="menu-button catch-button" type="button">CATCH <span>◉</span></button><button id="runButton" class="menu-button run-button" type="button">RUN <span>➜</span></button></div>
+<div id="moveMenu" class="move-menu" hidden><button class="move-button" data-move="Love Shower" type="button">LOVE SHOWER <span>♥</span></button><button class="move-button" data-move="Love Shock" type="button">LOVE SHOCK <span>ϟ</span></button><button class="move-button" data-move="Rose Throw" type="button">ROSE THROW <span>✿</span></button><button class="move-button" data-move="Love Kiss" type="button">LOVE KISS <span>♥</span></button></div></div></div></section>
+<section id="winScene" class="screen win-scene" hidden aria-label="Victory screen">
+<button id="continueButton" class="retro-continue" type="button">CONTINUE <span>▶</span></button>
+</section></main>
+<audio id="loadingMusic" src="assets/loading.mp3" preload="auto" loop></audio>
+<audio id="battleMusic" src="assets/battlebegin.mp3" preload="auto" loop></audio>
+<audio id="screechSfx" src="assets/screech.mp3" preload="auto"></audio>
+<audio id="attackSfx" src="assets/attack.mp3" preload="auto"></audio>
+<audio id="lowSfx" src="assets/low.mp3" preload="auto"></audio>
+<audio id="opponentAttackSfx" src="assets/attack2.mp3" preload="auto"></audio>
+<audio id="catchSfx" src="assets/catch.mp3" preload="auto"></audio>
+<audio id="moveSfx" src="assets/move.mp3" preload="auto"></audio>
+<audio id="catch2Sfx" src="assets/catch1.mp3" preload="auto"></audio>
+<audio id="endSfx" src="assets/end.mp3" preload="auto"></audio>
+<audio id="winMusic" src="assets/win.mp3" preload="auto" loop></audio>
+<audio id="dingSfx" src="assets/ding.mp3" preload="auto"></audio>
+<script src="preload-manifest.js" defer></script><script src="preload-manager.js" defer></script><script src="app.js" defer></script></body></html>
